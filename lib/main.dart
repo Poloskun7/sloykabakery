@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sloykabakery/screens/about_us_screen.dart';
+import 'package:sloykabakery/screens/main_screen/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
