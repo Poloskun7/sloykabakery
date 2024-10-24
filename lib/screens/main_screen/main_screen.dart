@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:sloykabakery/screens/main_screen/banquet.dart';
-import 'package:sloykabakery/screens/main_screen/heading.dart';
-import 'package:sloykabakery/screens/main_screen/services.dart';
-import 'package:sloykabakery/screens/main_screen/subscribe.dart';
-import 'package:sloykabakery/themes/app_colors.dart';
+import 'package:sloykabakery/custom_sliver_app_bar.dart';
+import 'package:sloykabakery/screens/main_screen/widgets/feedback_button_widget.dart';
+import 'package:sloykabakery/screens/main_screen/widgets/order_banquet_button_widget.dart';
+import 'package:sloykabakery/screens/main_screen/widgets/heading_widget.dart';
+import 'package:sloykabakery/screens/main_screen/widgets/info_widget.dart';
+import 'package:sloykabakery/screens/main_screen/widgets/menu_widget.dart';
+import 'package:sloykabakery/screens/main_screen/widgets/services_widget.dart';
+import 'package:sloykabakery/screens/main_screen/widgets/subscribe_widget.dart';
+import 'package:sloykabakery/screens/main_screen/widgets/user_agreement_widget.dart';
 
-class AboutUsScreen extends StatelessWidget {
-  const AboutUsScreen({super.key});
+class MainScreen extends StatelessWidget {
+  final List<Widget> widgets = const [
+    HeadingWidget(),
+    ServicesWidget(),
+    OrderBanquetButtonWidget(),
+    SubscribeWidget(),
+    InfoWidget(),
+    MenuWidget(),
+    FeedbackButtonWidget(),
+    UserAgreementWidget()
+  ];
+
+  const MainScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('СЛОЙКА', style: TextStyle(fontSize: 30, color: AppColors.one, fontWeight: FontWeight.bold)),
-      ),
-      body: ListView(children: const [
-      Heading(),
-      Services(),
-      Banquet(),
-      Subscribe(),
-    ],),);
+    return CustomSliverAppBar(widgets: widgets);
   }
 }
