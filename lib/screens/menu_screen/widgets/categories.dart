@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:sloykabakery/themes/app_colors.dart';
+import 'package:sloykabakery/themes/app_theme.dart';
 
 class Categories extends StatefulWidget {
   const Categories({super.key});
 
   @override
-  _CategoriesState createState() => _CategoriesState();
+  CategoriesState createState() => CategoriesState();
 }
 
-class _CategoriesState extends State<Categories> {
+class CategoriesState extends State<Categories> {
   // Список категорий
   final List<Category> categories = const [
     Category(name: 'Завтраки'),
@@ -70,7 +70,7 @@ class CategoryButton extends StatelessWidget {
           child: Text(
             name,
             style: TextStyle(
-              color: isActive ? AppColors.one : Colors.black, // Меняем цвет, если категория активна
+              color: isActive ? AppColors.richPurplishRedColor : Colors.black, // Меняем цвет, если категория активна
               fontSize: 16,
               fontWeight: isActive ? FontWeight.bold : FontWeight.normal, // Дополнительно можно менять стиль текста
             ),

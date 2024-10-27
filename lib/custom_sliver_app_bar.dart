@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sloykabakery/themes/app_colors.dart';
+import 'package:sloykabakery/themes/app_theme.dart';
 
 class CustomSliverAppBar extends StatelessWidget {
   final List<Widget> widgets;
@@ -15,18 +15,11 @@ class CustomSliverAppBar extends StatelessWidget {
             expandedHeight: 75.0,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
-              titlePadding: const EdgeInsets.only(left: 16, bottom: 10),
+              titlePadding: EdgeInsets.only(left: 16, bottom: 10),
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'СЛОЙКА',
-                    style: TextStyle(
-                      color: AppColors.one,
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  Text('СЛОЙКА', style: AppTextStyles.logo),
                 ],
               ),
               centerTitle: false,

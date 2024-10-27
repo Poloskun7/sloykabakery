@@ -1,30 +1,21 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
+// import 'package:yandex_maps_navikit/yandex_map.dart';
 
-class Map extends StatelessWidget {
-  const Map({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Padding(
-          padding: EdgeInsets.only(top: 20),
-          child: Text(
-            'Ждем вас в гости',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          height: 300,
-          color: Colors.green,
-          child: const Center(
-              child: Text(
-            'Здесь будет карта',
-            style: TextStyle(color: Colors.white),
-          )),
-        ),
-      ],
-    );
-  }
-}
+// class MapWidget extends StatefulWidget {
+//   const MapWidget({super.key});
+  
+//   @override
+//   State<MapWidget> createState() => _MapWidgetState();
+// }
+  
+// class _MapWidgetState extends State<MapWidget> {
+  
+//   MapWindow? _mapWindow;
+  
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//         body: YandexMap(onMapCreated: (mapWindow) => _mapWindow = mapWindow)
+//       );
+//   }
+// }

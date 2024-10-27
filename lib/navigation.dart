@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sloykabakery/screens/addresses_screen/addresses_screen.dart';
 import 'package:sloykabakery/screens/corporate_meals_screen/corporate_meals_screen.dart';
-import 'package:sloykabakery/screens/main_screen/main_screen.dart';
+import 'package:sloykabakery/screens/home_screen/home_screen.dart';
 import 'package:sloykabakery/screens/menu_screen/menu_screen.dart';
 
 class Navigation extends StatefulWidget {
@@ -15,7 +15,7 @@ class _NavigationState extends State<Navigation> {
   int _selectedTab = 0;
 
   static final List<Widget> _widgetOptions = <Widget> [
-    const MainScreen(),
+    const HomeScreen(),
     const MenuScreen(),
     const AddressesScreen(),
     const CorporateMealsScreen(),
@@ -52,6 +52,7 @@ class _NavigationState extends State<Navigation> {
           BottomNavigationBarItem(
             icon: Icon(Icons.lunch_dining),
             label: 'Корпоративное питание',
+            tooltip: 'Корпоративное питание'
           ),
         ],
         onTap: onSelectTab,

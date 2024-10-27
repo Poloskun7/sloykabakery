@@ -24,7 +24,7 @@ class AddressesScreen extends StatelessWidget {
     AddressWidget(address: 'Московский пр, 60/129', landmark: 'БЦ Сенатор', time: 'пн-пт 8:30 - 18:00'),
     AddressWidget(address: 'Брантовская дорога, 3', landmark: 'Охта Молл, 3 этаж', time: 'каждый день 10:00 - 22:00'),
     AddressWidget(address: 'Выборгская наб, 45Е', landmark: 'EspressoBar 45', time: 'пн-пт 8:30 - 18:00'),
-    Map(),
+    //Map(),
   ];
 
   const AddressesScreen({super.key});
