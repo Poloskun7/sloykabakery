@@ -1,28 +1,22 @@
 PODS:
   - Flutter (1.0.0)
-  - yandex_maps_navikit (1.0.0):
+  - sqflite_darwin (0.0.4):
     - Flutter
-    - YandexMapsMobile (= 4.8.1-beta-navikit-flutter)
-  - YandexMapsMobile (4.8.1-beta-navikit-flutter)
+    - FlutterMacOS
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - yandex_maps_navikit (from `.symlinks/plugins/yandex_maps_navikit/ios`)
-
-SPEC REPOS:
-  trunk:
-    - YandexMapsMobile
+  - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  yandex_maps_navikit:
-    :path: ".symlinks/plugins/yandex_maps_navikit/ios"
+  sqflite_darwin:
+    :path: ".symlinks/plugins/sqflite_darwin/darwin"
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  yandex_maps_navikit: c96bd15591bbe1be8d9020a4a4eaf542e3465d36
-  YandexMapsMobile: 5220166b3d543f0e368ba0f34c99a48ef85a6f89
+  sqflite_darwin: a553b1fd6fe66f53bbb0fe5b4f5bab93f08d7a13
 
 PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
 

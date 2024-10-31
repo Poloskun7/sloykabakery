@@ -16,7 +16,7 @@ class _NavigationState extends State<Navigation> {
 
   static final List<Widget> _widgetOptions = <Widget> [
     const HomeScreen(),
-    const MenuScreen(),
+    MenuScreen(),
     const AddressesScreen(),
     const CorporateMealsScreen(),
   ];

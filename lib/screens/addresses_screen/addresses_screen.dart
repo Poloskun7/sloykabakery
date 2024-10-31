@@ -1,36 +1,94 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:sloykabakery/custom_sliver_app_bar.dart';
 import 'package:sloykabakery/screens/addresses_screen/widgets/address_widget.dart';
-import 'package:sloykabakery/screens/menu_screen/widgets/current_screen_widget.dart';
-import 'package:sloykabakery/screens/menu_screen/widgets/screen_name_widget.dart';
-import 'package:sloykabakery/screens/addresses_screen/widgets/map_widget.dart';
+import 'package:sloykabakery/themes/app_theme.dart';
+// import 'package:sloykabakery/screens/menu_screen/widgets/current_screen_widget.dart';
+// import 'package:sloykabakery/screens/menu_screen/widgets/screen_name_widget.dart';
 
 class AddressesScreen extends StatelessWidget {
   final List<Widget> widgets = const [
-    CurrentScreenWidget(text: 'Адреса',),
-    ScreenNameWidget(name: 'Наши рестораны'),
-    AddressWidget(address: 'ул. Миллионная, 6', landmark: 'БЦ Сенатор', time: 'пн-пт 8:30 - 19:00'),
-    AddressWidget(address: 'ул. Киевская, 5к5', landmark: 'БЦ Энерго', time: 'пн-пт 8:30 - 18:00'),
-    AddressWidget(address: '18-я линия ВО, 29', landmark: 'БЦ Сенатор', time: 'пн-пт 8:30 - 18:00'),
-    AddressWidget(address: 'Профессора Попова, 23', landmark: 'БЦ Гайот', time: 'пн-пт 8:30 - 18:00'),
-    AddressWidget(address: 'ул. Марата 69-71', landmark: 'БЦ Ренессанс Плаза', time: 'пн-пт 8:30 - 19:00'),
-    AddressWidget(address: 'ул. Красного Курсанта, 31', landmark: 'БЦ Керстен', time: 'пн-пт 8:30 - 19:00'),
-    AddressWidget(address: 'ул. Кропоткина, 1А', landmark: 'БЦ Сенатор', time: 'пн-пт 8:30 - 19:00'),
-    AddressWidget(address: 'ул. Чапаева, 15к2', landmark: 'БЦ Сенатор', time: 'пн-пт 8:30 - 19:00'),
-    AddressWidget(address: 'Выборгская наб, 45Е', landmark: 'БЦ Стокгольм', time: 'пн-пт 8:30 - 19:00'),
-    AddressWidget(address: 'Большой Сампсониевский пр, 68', landmark: 'БЦ Выборгская застава', time: 'пн-пт 8:30 - 19:00'),
-    AddressWidget(address: 'ул. Академика Павлова, 5В', landmark: 'БЦ Ривер Хаус', time: 'пн-пт 8:30 - 18:00'),
-    AddressWidget(address: 'Малоохтинский пр, 68', landmark: 'БЦ Регул', time: 'пн-пт 8:30 - 18:00'),
-    AddressWidget(address: 'Московский пр, 60/129', landmark: 'БЦ Сенатор', time: 'пн-пт 8:30 - 18:00'),
-    AddressWidget(address: 'Брантовская дорога, 3', landmark: 'Охта Молл, 3 этаж', time: 'каждый день 10:00 - 22:00'),
-    AddressWidget(address: 'Выборгская наб, 45Е', landmark: 'EspressoBar 45', time: 'пн-пт 8:30 - 18:00'),
-    //Map(),
+    Center(
+      child: Text(
+        'Наши рестораны',
+        style: AppTextStyles.heading_1,
+      ),
+    ),
   ];
 
   const AddressesScreen({super.key});
 
+  Future<List<AddressWidget>> getRestaurants() async {
+    var headers = {
+      'sltoken': '32232',
+    };
+
+    final cacheOptions = buildCacheOptions(
+      const Duration(minutes: 1),
+      options: Options(
+        headers: headers,
+      ),
+    );
+
+    final dio = Dio();
+    // dio.interceptors.add(DioCacheManager(CacheConfig()).interceptor);
+    final response = await dio.get(
+      'https://r24api.photonhost.net/sl/caffe/',
+      options: cacheOptions,
+    );
+
+    List<Map<String, dynamic>> restaurants = [];
+    for (var item in response.data) {
+      Map<String, dynamic> restaurant = {
+        'address': item['address'],
+        'work_time': item['work_time'],
+        'extra': item['extra'],
+        'latitude': item['latitude'],
+        'longitude': item['longitude'],
+      };
+      restaurants.add(restaurant);
+    }
+
+    List<AddressWidget> addressWidgets = [];
+    for (Map item in restaurants) {
+      var addressWidget = AddressWidget(
+        address: item['address'],
+        time: item['work_time'],
+        landmark: item['extra'],
+      );
+      addressWidgets.add(addressWidget);
+    }
+
+    // if (response.statusCode == 200) {
+    //   print(response.data);
+    // } else {
+    //   print('Error: ${response.statusCode} - ${response.statusMessage}');
+    // }
+
+    return addressWidgets;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return CustomSliverAppBar(widgets: widgets);
+    return FutureBuilder<List<AddressWidget>>(
+      future: getRestaurants(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Ошибка: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Center(child: Text('Нет данных для отображения.'));
+        } else {
+          // Получаем список виджетов адресов
+          final addressesWidgets = snapshot.data!;
+          return CustomSliverAppBar(widgets: [
+            ...widgets,
+            ...addressesWidgets,
+          ]);
+        }
+      },
+    );
   }
 }

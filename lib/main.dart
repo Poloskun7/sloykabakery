@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:yandex_maps_navikit/yandex_map.dart' as init;
 import 'package:sloykabakery/navigation.dart';
 import 'package:sloykabakery/screens/home_screen/thank_you_screen.dart';
 import 'package:sloykabakery/screens/home_screen/feedback_screen.dart';
@@ -17,6 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        // scaffoldBackgroundColor: Colors.white,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(

@@ -14,16 +14,13 @@ class CustomSliverAppBar extends StatelessWidget {
           const SliverAppBar(
             expandedHeight: 75.0,
             pinned: true,
+            // backgroundColor: Colors.white,
             flexibleSpace: FlexibleSpaceBar(
-              titlePadding: EdgeInsets.only(left: 16, bottom: 10),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('СЛОЙКА', style: AppTextStyles.logo),
-                ],
+                titlePadding: EdgeInsets.only(left: 16, bottom: 10),
+                title: Text('СЛОЙКА', style: AppTextStyles.logo),
+                centerTitle: false,
               ),
-              centerTitle: false,
-            ),
+              shadowColor: Colors.grey,
           ),
           SliverList(
             delegate: SliverChildListDelegate(

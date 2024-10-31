@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ProductWidget extends StatelessWidget {
   final String name;
   final String? description;
-  final String price;
+  final int price;
 
   const ProductWidget(
       {super.key, required this.name, this.description, required this.price});
@@ -27,7 +27,7 @@ class ProductWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                price,
+                '$price',
                 style:
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
