@@ -12,7 +12,7 @@ class AddressWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16, top: 20),
       child: Container(
-        decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+        decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(10)), border: Border.all(color: Colors.grey)),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           child: Column(

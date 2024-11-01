@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sloykabakery/navigation.dart';
 import 'package:sloykabakery/screens/home_screen/thank_you_screen.dart';
 import 'package:sloykabakery/screens/home_screen/feedback_screen.dart';
 import 'package:sloykabakery/themes/app_theme.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(child: MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -16,16 +19,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // scaffoldBackgroundColor: Colors.white,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          // backgroundColor: AppColors.whiteColor,
-          selectedItemColor: AppColors.richPurplishRedColor,
-          unselectedItemColor: AppColors.blackColor,
-          
-        )
-      ),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+            selectedItemColor: AppColors.richPurplishRedColor,
+            unselectedItemColor: AppColors.blackColor,
+          )),
       routes: {
         '/': (context) => const Navigation(),
         '/feedback': (context) => const FeedbackScreen(),
@@ -34,5 +33,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-

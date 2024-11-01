@@ -4,8 +4,6 @@ import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:sloykabakery/custom_sliver_app_bar.dart';
 import 'package:sloykabakery/screens/addresses_screen/widgets/address_widget.dart';
 import 'package:sloykabakery/themes/app_theme.dart';
-// import 'package:sloykabakery/screens/menu_screen/widgets/current_screen_widget.dart';
-// import 'package:sloykabakery/screens/menu_screen/widgets/screen_name_widget.dart';
 
 class AddressesScreen extends StatelessWidget {
   final List<Widget> widgets = const [
@@ -59,13 +57,6 @@ class AddressesScreen extends StatelessWidget {
       );
       addressWidgets.add(addressWidget);
     }
-
-    // if (response.statusCode == 200) {
-    //   print(response.data);
-    // } else {
-    //   print('Error: ${response.statusCode} - ${response.statusMessage}');
-    // }
-
     return addressWidgets;
   }
 
@@ -81,7 +72,6 @@ class AddressesScreen extends StatelessWidget {
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return const Center(child: Text('Нет данных для отображения.'));
         } else {
-          // Получаем список виджетов адресов
           final addressesWidgets = snapshot.data!;
           return CustomSliverAppBar(widgets: [
             ...widgets,

@@ -1,26 +1,23 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
-import 'package:flutter/material.dart';
 import 'package:sloykabakery/custom_sliver_app_bar.dart';
-import 'package:sloykabakery/screens/menu_screen/widgets/categories.dart';
-// import 'package:sloykabakery/screens/menu_screen/widgets/current_screen_widget.dart';
-import 'package:sloykabakery/screens/menu_screen/widgets/product_widget.dart';
-import 'package:sloykabakery/themes/app_theme.dart';
+import 'package:sloykabakery/screens/menu_screen/widgets/categories_widget.dart';
+import 'package:sloykabakery/screens/menu_screen/widgets/header_widget.dart';
+import 'package:sloykabakery/screens/menu_screen/widgets/products_widget.dart';
 
-class MenuScreen extends StatelessWidget {
-  final Set<Category> categories = {};
-  final List<Widget> widgets = const [
-    Center(
-      child: Text(
-        'Меню',
-        style: AppTextStyles.heading_1,
-      ),
-    ),
-  ];
+final productsProvider = StateProvider<List<ProductWidget>>((ref) => []);
+final categoriesProvider = StateProvider<Set<CategoryWidget>>((ref) => {});
+final selectedCategoryProvider = StateProvider<int>((ref) => 1);
+
+class MenuScreen extends ConsumerWidget {
+  final Set<CategoryWidget> categoryWidgets = {};
+  final List<ProductWidget> productWidgets = [];
 
   MenuScreen({super.key});
 
-  Future<List<ProductWidget>> getProducts() async {
+  Future<void> getProducts(WidgetRef ref) async {
     var headers = {
       'sltoken': '32232',
     };
@@ -39,44 +36,50 @@ class MenuScreen extends StatelessWidget {
       options: cacheOptions,
     );
 
-    List<ProductWidget> productWidgets = [];
+    productWidgets.clear();
     for (var item in response.data) {
-      categories.add(Category(name: item['category']['name']));
-      productWidgets.add(ProductWidget(name: item['name'], price: item['price']));
-    }
-    for (Category category in categories) {
-      print(category.name);
+      addCategoryButton(item);
+      productWidgets.add(ProductWidget(
+          categoryId: item['category']['id'],
+          name: item['name'],
+          description: item['description'],
+          price: item['price']));
     }
 
-    // if (response.statusCode == 200) {
-    //   print(response.data);
-    // } else {
-    //   print('Error: ${response.statusCode} - ${response.statusMessage}');
-    // }
+    ref.read(productsProvider.notifier).state = productWidgets;
+    ref.read(categoriesProvider.notifier).state = categoryWidgets;
+  }
 
-    return productWidgets;
+  void addCategoryButton(var button) {
+    if (categoryWidgets.any(
+        (existingButton) => existingButton.id == button['category']['id'])) {
+      return;
+    }
+    categoryWidgets.add(CategoryWidget(
+        id: button['category']['id'], name: button['category']['name']));
   }
 
   @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<ProductWidget>>(
-      future: getProducts(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Ошибка: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: Text('Нет данных для отображения.'));
-        } else {
-          final productWidgets = snapshot.data!;
-          return CustomSliverAppBar(widgets: [
-            ...widgets,
-            // ...categories,
-            ...productWidgets,
-          ]);
-        }
-      },
+  Widget build(BuildContext context, WidgetRef ref) {
+    getProducts(ref);
+    final categories = ref.watch(categoriesProvider);
+    final List<CategoryWidget> categoriesList = categories.toList();
+    final products = ref.watch(productsProvider);
+    return CustomSliverAppBar(
+      widgets: [
+        const SizedBox(height: 20),
+        const HeaderWidget(name: 'Меню'),
+        if (categories.isNotEmpty && products.isNotEmpty) ...[
+          const CategoriesWidget(),
+          const SizedBox(height: 20),
+          HeaderWidget(
+              name:
+                  categoriesList[ref.watch(selectedCategoryProvider) - 1].name),
+          const SizedBox(height: 20),
+          const ProductsWidget()
+        ] else
+          const Center(child: CircularProgressIndicator()),
+      ],
     );
   }
 }

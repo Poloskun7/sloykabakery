@@ -6,7 +6,6 @@ import 'package:sloykabakery/screens/home_screen/widgets/image_widget_2.dart';
 import 'package:sloykabakery/screens/home_screen/widgets/info_widget.dart';
 import 'package:sloykabakery/screens/home_screen/widgets/services_widget.dart';
 import 'package:sloykabakery/screens/home_screen/widgets/subscribe_widget.dart';
-import 'package:sloykabakery/screens/home_screen/widgets/user_agreement_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -30,10 +29,10 @@ class HomeWidgets extends StatelessWidget {
           SizedBox(height: 20),
           ServicesWidget(),
           SizedBox(height: 20),
-          // ButtonWidget(
-          //   buttonText: 'Заказать банкет',
-          //   nextScreen: 'example',
-          // ),
+          ButtonWidget(
+            buttonText: 'Заказать банкет',
+            nextScreen: 'feedback',
+          ),
           SizedBox(height: 20),
           SubscribeWidget(),
           SizedBox(height: 20),
@@ -45,8 +44,6 @@ class HomeWidgets extends StatelessWidget {
             buttonText: 'Обратная связь',
             nextScreen: 'feedback',
           ),
-          SizedBox(height: 20),
-          UserAgreementWidget(),
           SizedBox(height: 20),
         ],
       ),
