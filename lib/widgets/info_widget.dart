@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sloykabakery/themes/app_theme.dart';
+import 'package:sloykabakery/themes/app_themes.dart';
 
 class InfoWidget extends StatelessWidget {
   const InfoWidget({super.key});
@@ -11,7 +11,7 @@ class InfoWidget extends StatelessWidget {
         children: [
           MarketingContactWidget(),
           SizedBox(height: 20),
-          Divider(),
+          Divider(color: AppColors.dividerColor,),
           SizedBox(height: 20),
           ArendaContactWidget()
         ]);

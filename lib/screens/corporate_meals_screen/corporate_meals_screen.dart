@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sloykabakery/custom_sliver_app_bar.dart';
+import 'package:sloykabakery/widgets/custom_sliver_app_bar.dart';
 import 'package:sloykabakery/screens/corporate_meals_screen/widgets/header_widget.dart';
 import 'package:sloykabakery/screens/corporate_meals_screen/widgets/thinking_about_name.dart';
 import 'package:sloykabakery/screens/home_screen/widgets/button_widget.dart';
-import 'package:sloykabakery/screens/home_screen/widgets/info_widget.dart';
+import 'package:sloykabakery/widgets/info_widget.dart';
 
 class CorporateMealsScreen extends StatelessWidget {
   const CorporateMealsScreen({super.key});

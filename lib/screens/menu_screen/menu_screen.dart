@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
-import 'package:sloykabakery/custom_sliver_app_bar.dart';
+import 'package:sloykabakery/widgets/custom_sliver_app_bar.dart';
 import 'package:sloykabakery/screens/menu_screen/widgets/categories_widget.dart';
-import 'package:sloykabakery/screens/menu_screen/widgets/header_widget.dart';
+import 'package:sloykabakery/widgets/header_widget.dart';
 import 'package:sloykabakery/screens/menu_screen/widgets/products_widget.dart';
 
 final productsProvider = StateProvider<List<ProductWidget>>((ref) => []);
@@ -69,6 +69,7 @@ class MenuScreen extends ConsumerWidget {
       widgets: [
         const SizedBox(height: 20),
         const HeaderWidget(name: 'Меню'),
+        const SizedBox(height: 20),
         if (categories.isNotEmpty && products.isNotEmpty) ...[
           const CategoriesWidget(),
           const SizedBox(height: 20),

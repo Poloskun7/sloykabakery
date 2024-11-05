@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sloykabakery/screens/menu_screen/menu_screen.dart';
+import 'package:sloykabakery/themes/app_themes.dart';
 
 class ProductsWidget extends ConsumerWidget {
   const ProductsWidget({super.key});
@@ -65,7 +66,7 @@ class ProductWidget extends StatelessWidget {
                 child: Align(
                     alignment: Alignment.centerLeft, child: Text(description))),
           const SizedBox(height: 10),
-          const Divider()
+          const Divider(color: AppColors.dividerColor)
         ],
       ),
     );

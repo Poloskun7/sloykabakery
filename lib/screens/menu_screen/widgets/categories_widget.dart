@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sloykabakery/screens/menu_screen/menu_screen.dart';
-import 'package:sloykabakery/themes/app_theme.dart';
+import 'package:sloykabakery/themes/app_themes.dart';
 
 class CategoriesWidget extends ConsumerWidget {
   const CategoriesWidget({super.key});
@@ -30,12 +30,13 @@ class CategoryWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedCategoryId = ref.watch(selectedCategoryProvider);
     return TextButton(
+      style: ButtonStyle(backgroundColor: WidgetStateProperty.all(selectedCategoryId == id ? AppColors.richPurplishRedColor : Colors.transparent)),
       onPressed: () {
         ref.read(selectedCategoryProvider.notifier).state = id;
       },
       child: Text(
         name,
-        style: TextStyle(color: selectedCategoryId == id ? AppColors.richPurplishRedColor : AppColors.blackColor),
+        style: TextStyle(color: selectedCategoryId == id ? AppColors.whiteColor : AppColors.blackColor),
       ),
     );
   }

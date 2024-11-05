@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sloykabakery/navigation.dart';
+import 'package:sloykabakery/widgets/navigation.dart';
 import 'package:sloykabakery/screens/home_screen/thank_you_screen.dart';
 import 'package:sloykabakery/screens/home_screen/feedback_screen.dart';
-import 'package:sloykabakery/themes/app_theme.dart';
+import 'package:sloykabakery/themes/app_themes.dart';
 
 void main() {
   runApp(
@@ -18,13 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-            selectedItemColor: AppColors.richPurplishRedColor,
-            unselectedItemColor: AppColors.blackColor,
-          )),
+      theme: appTheme(),
       routes: {
         '/': (context) => const Navigation(),
         '/feedback': (context) => const FeedbackScreen(),

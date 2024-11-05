@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sloykabakery/custom_sliver_app_bar.dart';
+import 'package:sloykabakery/widgets/animated_text_widget.dart';
+import 'package:sloykabakery/widgets/custom_sliver_app_bar.dart';
 import 'package:sloykabakery/screens/home_screen/widgets/button_widget.dart';
+import 'package:sloykabakery/screens/home_screen/widgets/carousel_slider_widget.dart';
 import 'package:sloykabakery/screens/home_screen/widgets/header_widget.dart';
 import 'package:sloykabakery/screens/home_screen/widgets/image_widget_2.dart';
-import 'package:sloykabakery/screens/home_screen/widgets/info_widget.dart';
+import 'package:sloykabakery/widgets/info_widget.dart';
 import 'package:sloykabakery/screens/home_screen/widgets/services_widget.dart';
 import 'package:sloykabakery/screens/home_screen/widgets/subscribe_widget.dart';
 
@@ -33,6 +35,10 @@ class HomeWidgets extends StatelessWidget {
             buttonText: 'Заказать банкет',
             nextScreen: 'feedback',
           ),
+          SizedBox(height: 20),
+          CarouselSliderWidget(),
+          SizedBox(height: 20),
+          // AnimatedTextWidget(text: ['Hello']),
           SizedBox(height: 20),
           SubscribeWidget(),
           SizedBox(height: 20),

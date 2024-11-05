@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
-import 'package:sloykabakery/custom_sliver_app_bar.dart';
-import 'package:sloykabakery/screens/addresses_screen/widgets/address_widget.dart';
-import 'package:sloykabakery/themes/app_theme.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:sloykabakery/widgets/animated_text_widget.dart';
+import 'package:sloykabakery/widgets/custom_sliver_app_bar.dart';
+import 'package:sloykabakery/screens/addresses_screen/widgets/addresses_widget.dart';
+import 'package:sloykabakery/screens/addresses_screen/widgets/map_widget.dart';
+import 'package:sloykabakery/screens/home_screen/widgets/button_widget.dart';
+import 'package:sloykabakery/themes/app_themes.dart';
+import 'package:sloykabakery/widgets/header_widget.dart';
+import 'package:sloykabakery/widgets/info_widget.dart';
 
-class AddressesScreen extends StatelessWidget {
-  final List<Widget> widgets = const [
-    Center(
-      child: Text(
-        'Наши рестораны',
-        style: AppTextStyles.heading_1,
-      ),
-    ),
-  ];
+final addressesProvider = StateProvider<List<AddressWidget>>((ref) => []);
+final markersProvider = StateProvider<List<Marker>>((ref) => []);
 
-  const AddressesScreen({super.key});
+class AddressesScreen extends ConsumerWidget {
+  final List<AddressWidget> addressWidgets = [];
+  final List<Marker> markers = [];
 
-  Future<List<AddressWidget>> getRestaurants() async {
+  AddressesScreen({super.key});
+
+  Future<void> getRestaurants(WidgetRef ref) async {
     var headers = {
       'sltoken': '32232',
     };
@@ -36,49 +41,66 @@ class AddressesScreen extends StatelessWidget {
       options: cacheOptions,
     );
 
-    List<Map<String, dynamic>> restaurants = [];
+    addressWidgets.clear();
     for (var item in response.data) {
-      Map<String, dynamic> restaurant = {
-        'address': item['address'],
-        'work_time': item['work_time'],
-        'extra': item['extra'],
-        'latitude': item['latitude'],
-        'longitude': item['longitude'],
-      };
-      restaurants.add(restaurant);
+      addressWidgets.add(AddressWidget(
+          address: item['address'],
+          time: item['work_time'],
+          extra: item['extra'],
+          latitude: item['latitude'],
+          longitude: item['longitude']));
+      markers.add(Marker(
+          point: LatLng(item['latitude'], item['longitude']),
+          width: 60,
+          height: 60,
+          child: const Icon(Icons.location_pin, color: AppColors.richPurplishRedColor,)));
     }
-
-    List<AddressWidget> addressWidgets = [];
-    for (Map item in restaurants) {
-      var addressWidget = AddressWidget(
-        address: item['address'],
-        time: item['work_time'],
-        landmark: item['extra'],
-      );
-      addressWidgets.add(addressWidget);
-    }
-    return addressWidgets;
+    ref.read(addressesProvider.notifier).state = addressWidgets;
+    ref.read(markersProvider.notifier).state = markers;
   }
 
   @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<AddressWidget>>(
-      future: getRestaurants(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Ошибка: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: Text('Нет данных для отображения.'));
-        } else {
-          final addressesWidgets = snapshot.data!;
-          return CustomSliverAppBar(widgets: [
-            ...widgets,
-            ...addressesWidgets,
-          ]);
-        }
-      },
+  Widget build(BuildContext context, WidgetRef ref) {
+    getRestaurants(ref);
+    return const CustomSliverAppBar(
+      widgets: [
+        AddressesWidgets()
+      ],
+    );
+  }
+}
+
+class AddressesWidgets extends ConsumerWidget {
+  const AddressesWidgets({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final addressWidgets = ref.watch(addressesProvider);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      child: Column(
+        children: [
+          const AnimatedTextWidget(text: 'Производим сытость и радость'),
+          const SizedBox(height: 20),
+          const HeaderWidget(name: 'Наши рестораны'),
+        if (addressWidgets.isNotEmpty) ...[
+          const AddressesWidget(),
+          const SizedBox(height: 40),
+          const Text('Ждем вас в гости', style: AppTextStyles.heading_2,),
+          const SizedBox(height: 20),
+          const MapWidget(),
+          const SizedBox(height: 20),
+          const InfoWidget(),
+          const SizedBox(height: 20),
+          const ButtonWidget(
+            buttonText: 'Обратная связь',
+            nextScreen: 'feedback',
+          ),
+          const SizedBox(height: 20),
+        ] else
+          const Center(child: CircularProgressIndicator()),
+        ],
+      ),
     );
   }
 }

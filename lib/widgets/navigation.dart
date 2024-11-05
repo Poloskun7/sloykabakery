@@ -17,7 +17,7 @@ class _NavigationState extends State<Navigation> {
   static final List<Widget> _widgetOptions = <Widget> [
     const HomeScreen(),
     MenuScreen(),
-    const AddressesScreen(),
+    AddressesScreen(),
     const CorporateMealsScreen(),
   ];
 
@@ -51,8 +51,7 @@ class _NavigationState extends State<Navigation> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.lunch_dining),
-            label: 'Корпоративное питание',
-            tooltip: 'Корпоративное питание'
+            label: 'Кейтеринг',
           ),
         ],
         onTap: onSelectTab,

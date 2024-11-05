@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sloykabakery/themes/app_theme.dart';
+import 'package:sloykabakery/themes/app_themes.dart';
 
 class ServicesWidget extends StatelessWidget {
   const ServicesWidget({super.key});
