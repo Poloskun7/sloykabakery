@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sloykabakery/widgets/navigation.dart';
-import 'package:sloykabakery/screens/home_screen/thank_you_screen.dart';
-import 'package:sloykabakery/screens/home_screen/feedback_screen.dart';
-import 'package:sloykabakery/themes/app_themes.dart';
+import 'package:sloykabakery/routing/router.dart';
+import 'package:sloykabakery/ui/core/themes/theme.dart';
 
 void main() {
   runApp(
@@ -16,14 +14,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return MaterialApp.router(
+      title: 'Sloyka bakery',
       theme: appTheme(),
-      routes: {
-        '/': (context) => const Navigation(),
-        '/feedback': (context) => const FeedbackScreen(),
-        '/thank_you': (context) => const ThankYouScreen(),
-      },
+      routerConfig: router,
     );
   }
 }

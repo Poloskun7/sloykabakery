@@ -1,0 +1,44 @@
+name: Flutter CI
+
+# Триггеры: запуск workflow при пуше в main ветку или при пул-реквесте в main
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# Jobs (задачи)
+jobs:
+  test:
+    # Запуск на Ubuntu (можно также использовать macOS или Windows)
+    runs-on: ubuntu-latest
+
+    steps:
+      # Шаг 1: Проверка кода
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Шаг 2: Установка Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.1' # Укажите нужную версию Flutter
+
+      # Шаг 3: Получение зависимостей
+      - name: Get dependencies
+        run: flutter pub get
+
+      # Шаг 4: Запуск тестов
+      - name: Run tests
+        run: flutter test
+
+      # Шаг 5: Сборка для Android
+      - name: Build Android APK
+        run: flutter build apk --release
+
+      # Шаг 6: Сборка для iOS (требуется macOS)
+      - name: Build iOS
+        if: runner.os == 'macOS'
+        run: flutter build ios --release --no-codesign
