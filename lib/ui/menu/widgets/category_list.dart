@@ -1,26 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:sloykabakery/domain/models/category.dart';
-import 'package:sloykabakery/ui/menu/widgets/category_item.dart';
+
+import '../../../domain/models/category.dart';
+import '../../core/themes/colors.dart';
 
 class CategoryList extends StatelessWidget {
   final List<Category> categories;
+  final int selectedId;
+  final void Function(int) onSelect;
 
-  const CategoryList({super.key, required this.categories});
+  const CategoryList({
+    super.key,
+    required this.categories,
+    required this.selectedId,
+    required this.onSelect,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Row(
-            children: [
-              const SizedBox(width: 16),
-              ...categories.map(
-                (category) => CategoryItem(category: category),
+      scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          const SizedBox(width: 16),
+          ...categories.map(
+            (category) => TextButton(
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.all(
+                  selectedId == category.id
+                      ? AppColors.richPurplishRedColor
+                      : Colors.transparent,
+                ),
               ),
-              const SizedBox(width: 16),
-            ],
+              onPressed: () => onSelect(category.id),
+              child: Text(
+                category.name,
+                style: TextStyle(
+                  color: selectedId == category.id
+                      ? AppColors.whiteColor
+                      : AppColors.blackColor,
+                ),
+              ),
+            ),
           ),
-        );
+          const SizedBox(width: 16),
+        ],
+      ),
+    );
   }
 }

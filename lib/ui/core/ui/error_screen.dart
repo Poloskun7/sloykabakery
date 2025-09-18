@@ -14,23 +14,26 @@ class ErrorScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(iconData, size: 64, color: const Color.fromARGB(255, 186, 38, 72)),
-            const SizedBox(height: 24),
-            Text(
-              error,
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            const SizedBox(height: 16),
-            Text(message),
-            const SizedBox(height: 32),
-            FilledButton(
-              onPressed: onRetry,
-              child: Text(buttonText),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(iconData, size: 64, color: const Color.fromARGB(255, 186, 38, 72)),
+              const SizedBox(height: 24),
+              Text(
+                error,
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              const SizedBox(height: 16),
+              Text(message),
+              const SizedBox(height: 32),
+              FilledButton(
+                onPressed: onRetry,
+                child: Text(buttonText),
+              ),
+            ],
+          ),
         ),
       ),
     );

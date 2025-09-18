@@ -31,7 +31,7 @@ class ApiService {
     try {
       final response = await dio.get(baseUrl,
           options: Options(headers: {'sltoken': token}, 
-          // receiveTimeout: 10
+          // receiveTimeout: const Duration(seconds: 10),
           ));
       // response.statusCode = 500;
 

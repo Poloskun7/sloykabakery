@@ -35,10 +35,10 @@ void main() {
       when(() => mockApiService.fetchMenuData())
           .thenAnswer((_) async => createEmptyTestApiMenuData());
 
-      final result = await repository.getMenuData();
-
-      expect(result.categories, isEmpty);
-      expect(result.products, isEmpty);
+      expect(
+        () => repository.getMenuData(),
+        throwsA(isA<DataValidationException>()),
+      );
     });
   });
 
@@ -53,6 +53,16 @@ void main() {
       );
     });
 
+    test('throws ApiTimeoutException', () async {
+      when(() => mockApiService.fetchMenuData())
+          .thenThrow(createTestApiTimeoutException());
+
+      expect(
+        () => repository.getMenuData(),
+        throwsA(isA<ApiTimeoutException>()),
+      );
+    });
+
     test('throws ApiException on server error', () async {
       when(() => mockApiService.fetchMenuData())
           .thenThrow(createTestApiException());
@@ -63,18 +73,17 @@ void main() {
       );
     });
 
-    // test('throws DataValidationException when empty product name', () async {
-    //   final testData = createTestApiMenuData();
-    //   testData.products.first.name = ''; // Делаем имя пустым
+    test('throws DataValidationException when empty product name', () async {
+      final testData = createEmptyTestApiMenuData();
 
-    //   when(() => mockApiService.fetchMenuData())
-    //       .thenAnswer((_) async => testData);
+      when(() => mockApiService.fetchMenuData())
+          .thenAnswer((_) async => testData);
 
-    //   expect(
-    //     () => repository.getMenuData(),
-    //     throwsA(isA<DataValidationException>()),
-    //   );
-    // });
+      expect(
+        () => repository.getMenuData(),
+        throwsA(isA<DataValidationException>()),
+      );
+    });
 
     test('converts unknown exceptions to AppException', () async {
       when(() => mockApiService.fetchMenuData())

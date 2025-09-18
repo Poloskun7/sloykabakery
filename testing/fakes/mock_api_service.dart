@@ -14,9 +14,17 @@ class MockApiService extends Mock implements ApiService {
     when(() => fetchMenuData()).thenThrow(createTestNoInternetException());
   }
 
+  void mockApiTimeoutError() {
+    when(() => fetchMenuData()).thenThrow(createTestApiTimeoutException());
+  }
+
   void mockServerError() {
     when(() => fetchMenuData()).thenThrow(
       createTestApiException(),
     );
+  }
+
+  void mockValidationError() {
+    when(() => fetchMenuData()).thenThrow(createTestValidationException());
   }
 }
