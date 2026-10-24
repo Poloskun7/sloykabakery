@@ -1,0 +1,41 @@
+name: Flutter CI
+
+on:
+  push:
+    branches: [main, develop, 'release/**']
+  pull_request:
+    branches: [main, develop, 'release/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.7'
+          channel: stable
+          cache: true
+      - run: flutter pub get --enforce-lockfile
+      - name: Check formatting
+        shell: bash
+        run: |
+          paths=(lib test)
+          for directory in testing integration_test; do
+            if [ -d "$directory" ]; then
+              paths+=("$directory")
+            fi
+          done
+          dart format --output=none --set-exit-if-changed "${paths[@]}"
+      - run: flutter analyze --fatal-infos
+      - run: flutter test
