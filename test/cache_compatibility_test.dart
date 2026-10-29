@@ -42,27 +42,30 @@ void main() {
     await directory.delete(recursive: true);
   });
 
-  test('Existing five-field product cache opens with the new adapter', () async {
-    Hive.registerAdapter(LegacyProductAdapter());
+  test(
+    'Existing five-field product cache opens with the new adapter',
+    () async {
+      Hive.registerAdapter(LegacyProductAdapter());
 
-    final box = await Hive.openBox<Product>('products');
-    await box.put(
-      'old',
-      Product(
-        categoryId: 1,
-        name: 'Сырники',
-        description: '',
-        price: 193,
-        imageUrl: null,
-      ),
-    );
-    await box.close();
+      final box = await Hive.openBox<Product>('products');
+      await box.put(
+        'old',
+        Product(
+          categoryId: 1,
+          name: 'Сырники',
+          description: '',
+          price: 193,
+          imageUrl: null,
+        ),
+      );
+      await box.close();
 
-    Hive.resetAdapters();
-    Hive.registerAdapter(ProductAdapter());
+      Hive.resetAdapters();
+      Hive.registerAdapter(ProductAdapter());
 
-    final reopened = await Hive.openBox<Product>('products');
-    expect(reopened.get('old')!.id, isNull);
-    expect(reopened.get('old')!.name, 'Сырники');
-  });
+      final reopened = await Hive.openBox<Product>('products');
+      expect(reopened.get('old')!.id, isNull);
+      expect(reopened.get('old')!.name, 'Сырники');
+    },
+  );
 }
